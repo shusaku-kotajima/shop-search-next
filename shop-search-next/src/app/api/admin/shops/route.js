@@ -17,11 +17,13 @@ export async function POST(request) {
 
   if (!res.ok) {
     const errBody = await res.json().catch(() => ({}));
+    console.error("microCMS POST failed:", res.status, JSON.stringify(errBody));
     return NextResponse.json(
       { error: "登録に失敗しました", detail: errBody, status: res.status },
       { status: 500 }
     );
   }
+  console.log("microCMS POST success");
 
   const data = await res.json();
   return NextResponse.json(data, { status: 201 });
