@@ -16,7 +16,8 @@ export async function POST(request) {
   );
 
   if (!res.ok) {
-    return NextResponse.json({ error: "登録に失敗しました" }, { status: 500 });
+    const errBody = await res.json().catch(() => ({}));
+    return NextResponse.json({ error: "登録に失敗しました", detail: errBody, status: res.status }, { status: 500 });
   }
 
   const data = await res.json();
