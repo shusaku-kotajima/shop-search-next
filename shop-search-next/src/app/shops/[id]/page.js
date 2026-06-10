@@ -92,13 +92,6 @@ export default async function ShopDetail({ params }) {
         )}
       </div>
 
-      {/* サムネイル */}
-      {shop.thumbnailUrl?.url && (
-        <div style={{ marginBottom: "16px", borderRadius: "8px", overflow: "hidden", border: "1px solid rgba(0,229,255,0.2)" }}>
-          <img src={shop.thumbnailUrl.url} alt={shop.name} style={{ width: "100%", display: "block", maxHeight: "400px", objectFit: "cover" }} />
-        </div>
-      )}
-
       {/* マップ */}
       {extractMapSrc(shop.mapEmbedSrc) && (
         <div style={{
