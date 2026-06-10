@@ -56,6 +56,7 @@ function ShopList({ shops, onSelectShop }) {
                 </div>
 
                 {/* 右側：サムネ画像 */}
+                {shop.thumbnailUrl?.url && (
                 <div className="shop-thumbnail-area">
                   <img
                     src={shop.thumbnailUrl?.url}
@@ -63,6 +64,7 @@ function ShopList({ shops, onSelectShop }) {
                     className="shop-thumbnail"
                   />
                 </div>
+                )}
               </div>
             </li>
           ))}
