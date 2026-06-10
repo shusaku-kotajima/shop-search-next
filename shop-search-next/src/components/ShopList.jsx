@@ -28,7 +28,7 @@ function ShopList({ shops, onSelectShop }) {
                   <h3 className="shop-name">{shop.name}</h3>
 
                   <p className="shop-highlight">
-                    <span className="shop-highlight-label">目玉：</span>
+                    <span className="shop-highlight-label">おすすめ商品：</span>
                     {shop.highlightName}{shop.highlightGenre ? `（${shop.highlightGenre}）` : ""}
                   </p>
 

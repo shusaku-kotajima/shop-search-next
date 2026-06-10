@@ -54,7 +54,7 @@ export default async function ShopDetail({ params }) {
         <p style={{ margin: "0 0 4px", fontSize: "11px", color: "#00e5ff", letterSpacing: "2px", fontFamily: "'Orbitron', sans-serif" }}>SHOP DETAIL</p>
         <h1 style={{ margin: "0 0 12px", fontSize: "28px", fontFamily: "'Orbitron', sans-serif", color: "#e0eaff" }}>{shop.name}</h1>
         <p style={{ margin: "0 0 4px", fontSize: "14px", color: "#ff00aa" }}>
-          <span style={{ fontWeight: 600 }}>目玉：</span>{shop.highlightName}{shop.highlightGenre ? `（${shop.highlightGenre}）` : ""}
+          <span style={{ fontWeight: 600 }}>おすすめ商品：</span>{shop.highlightName}{shop.highlightGenre ? `（${shop.highlightGenre}）` : ""}
         </p>
         <p style={{ margin: "0 0 4px", fontSize: "13px", color: "#6b7fa8" }}>{shop.address}</p>
         <p style={{ margin: "0 0 4px", fontSize: "13px", color: "#6b7fa8" }}>徒歩約 {shop.walkMinutes} 分 ／ L.O. {shop.lastOrder}</p>
