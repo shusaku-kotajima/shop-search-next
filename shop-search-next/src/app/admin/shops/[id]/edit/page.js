@@ -31,7 +31,7 @@ export default function EditShopPage() {
   const [form, setForm] = useState({
     name: "", area: "", category: "", address: "",
     budget: "", tags: "", highlightName: "", highlightGenre: "",
-    lastOrder: "", walkMinutes: "", mapEmbedSrc: "",
+    lastOrder: "", walkMinutes: "", siteurlSrc: "", mapEmbedSrc: "", notes: "",
   });
 
   useEffect(() => {
@@ -49,7 +49,9 @@ export default function EditShopPage() {
           highlightGenre: data.highlightGenre || "",
           lastOrder: data.lastOrder || "",
           walkMinutes: data.walkMinutes || "",
+          siteurlSrc: data.siteurlSrc || "",
           mapEmbedSrc: data.mapEmbedSrc || "",
+          notes: data.notes || "",
         });
       });
   }, [id]);
@@ -111,16 +113,27 @@ export default function EditShopPage() {
         { label: "ジャンル", name: "highlightGenre" },
         { label: "ラストオーダー", name: "lastOrder" },
         { label: "徒歩何分", name: "walkMinutes" },
+        { label: "サイトURL", name: "siteurlSrc" },
         { label: "地図URL", name: "mapEmbedSrc" },
-      ].map(({ label, name }) => (
+        { label: "備考", name: "notes", multiline: true },
+      ].map(({ label, name, multiline }) => (
         <div key={name}>
           <label style={labelStyle}>{label}</label>
-          <input
-            name={name}
-            value={form[name]}
-            onChange={handleChange}
-            style={inputStyle}
-          />
+          {multiline ? (
+            <textarea
+              name={name}
+              value={form[name]}
+              onChange={handleChange}
+              style={{ ...inputStyle, height: "80px", resize: "vertical" }}
+            />
+          ) : (
+            <input
+              name={name}
+              value={form[name]}
+              onChange={handleChange}
+              style={inputStyle}
+            />
+          )}
         </div>
       ))}
 

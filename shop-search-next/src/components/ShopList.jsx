@@ -48,6 +48,10 @@ function ShopList({ shops, onSelectShop }) {
                     タグ：<span>{Array.isArray(shop.tags) ? shop.tags.join("、") : shop.tags}</span>
                   </p>
 
+                  {shop.notes && (
+                    <p className="shop-notes">備考：<span>{shop.notes}</span></p>
+                  )}
+
                   <span className="button button-link">詳細を見る</span>
                 </div>
 

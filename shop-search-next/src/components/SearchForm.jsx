@@ -49,7 +49,7 @@ function SearchForm({
         </label>
 
         <label className="form-label">
-          カテゴリ
+          ジャンル
           <select
             value={selectedCategory}
             onChange={(e) => onCategoryChange(e.target.value)}

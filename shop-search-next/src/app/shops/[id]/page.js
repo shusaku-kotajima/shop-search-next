@@ -1,6 +1,12 @@
 import { client } from "../../../lib/microcms";
 import Link from "next/link";
 
+function extractMapSrc(value) {
+  if (!value) return null;
+  const match = value.match(/src="([^"]+)"/);
+  return match ? match[1] : value;
+}
+
 export default async function ShopDetail({ params }) {
   const { id } = await params;
 
@@ -58,6 +64,32 @@ export default async function ShopDetail({ params }) {
             タグ：{Array.isArray(shop.tags) ? shop.tags.join("、") : shop.tags}
           </p>
         )}
+        {shop.notes && (
+          <p style={{ margin: "8px 0 0", fontSize: "13px", color: "#ffd166" }}>
+            備考：{shop.notes}
+          </p>
+        )}
+        {shop.siteurlSrc && (
+          <a
+            href={shop.siteurlSrc}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "inline-block",
+              marginTop: "12px",
+              padding: "6px 14px",
+              border: "1px solid #00e5ff",
+              borderRadius: "4px",
+              color: "#00e5ff",
+              fontSize: "12px",
+              textDecoration: "none",
+              letterSpacing: "1px",
+              fontFamily: "'Orbitron', sans-serif",
+            }}
+          >
+            サイトを見る →
+          </a>
+        )}
       </div>
 
       {/* サムネイル */}
@@ -68,7 +100,7 @@ export default async function ShopDetail({ params }) {
       )}
 
       {/* マップ */}
-      {shop.mapEmbedSrc && (
+      {extractMapSrc(shop.mapEmbedSrc) && (
         <div style={{
           background: "#0d1526",
           border: "1px solid rgba(0,229,255,0.2)",
@@ -81,7 +113,7 @@ export default async function ShopDetail({ params }) {
             background: "linear-gradient(90deg, #7b2fff, #00e5ff, #ff00aa)",
           }} />
           <iframe
-            src={shop.mapEmbedSrc}
+            src={extractMapSrc(shop.mapEmbedSrc)}
             width="100%"
             height="400"
             loading="lazy"

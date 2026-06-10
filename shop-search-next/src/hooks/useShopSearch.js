@@ -7,7 +7,7 @@ export function useShopSearch() {
 
   const urlKeyword = searchParams.get("keyword") ?? "";
   const selectedArea = searchParams.get("area") ?? "";
-  const selectedCategory = searchParams.get("category") ?? "";
+  const selectedCategory = searchParams.get("genre") ?? "";
 
   const [keyword, setKeyword] = useState(urlKeyword);
   const [shops, setShops] = useState([]);      // ← 店舗データをstateで管理
@@ -36,7 +36,7 @@ export function useShopSearch() {
   }, [urlKeyword]);
 
   const areas = Array.from(new Set(shops.map((shop) => shop.area)));
-  const categories = Array.from(new Set(shops.map((shop) => shop.category)));
+  const categories = Array.from(new Set(shops.map((shop) => shop.highlightGenre).filter(Boolean)));
 
   const updateURL = useCallback((key, value) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -51,7 +51,7 @@ export function useShopSearch() {
   const handleKeywordChange = (value) => setKeyword(value);
   const handleKeywordCommit = () => updateURL("keyword", keyword);
   const setSelectedArea = (value) => updateURL("area", value);
-  const setSelectedCategory = (value) => updateURL("category", value);
+  const setSelectedCategory = (value) => updateURL("genre", value);
 
   const keywordLower = keyword.toLowerCase();
   const filteredShops = shops.filter((shop) => {
@@ -65,7 +65,7 @@ export function useShopSearch() {
       : (shop.tags || "").toLowerCase().includes(keywordLower));
     const matchArea = selectedArea === "" || shop.area === selectedArea;
     const matchCategory =
-      selectedCategory === "" || shop.category === selectedCategory;
+      selectedCategory === "" || shop.highlightGenre === selectedCategory;
     return matchKeyword && matchArea && matchCategory;
   });
 

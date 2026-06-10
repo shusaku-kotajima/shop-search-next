@@ -16,6 +16,8 @@ export type Shop = {
   walkMinutes: number;     // 徒歩何分
   thumbnailUrl: string;    // サムネ画像URL
   mapEmbedSrc: string;     // Google Maps の埋め込み src
+  siteurlSrc: string;      // サイトURL
+  notes: string;           // 備考
 };
 
 export const shops: Shop[] = [
