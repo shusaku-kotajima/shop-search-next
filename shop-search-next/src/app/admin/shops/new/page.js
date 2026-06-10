@@ -27,6 +27,8 @@ const labelStyle = {
 export default function NewShopPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [thumbnailFile, setThumbnailFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
   const [form, setForm] = useState({
     name: "", area: "", category: "", address: "",
     budget: "", tags: "", highlightName: "", highlightGenre: "",
@@ -37,12 +39,40 @@ export default function NewShopPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setThumbnailFile(file);
+    setPreviewUrl(URL.createObjectURL(file));
+  };
+
   const handleSubmit = async () => {
     setLoading(true);
+
+    let thumbnailUrl = undefined;
+    if (thumbnailFile) {
+      const uploadForm = new FormData();
+      uploadForm.append("file", thumbnailFile);
+      const uploadRes = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: uploadForm,
+      });
+      if (!uploadRes.ok) {
+        const err = await uploadRes.json().catch(() => ({}));
+        alert("画像のアップロードに失敗しました\n" + JSON.stringify(err, null, 2));
+        setLoading(false);
+        return;
+      }
+      const uploadData = await uploadRes.json();
+      thumbnailUrl = { url: uploadData.url };
+    }
+
     const body = {
       ...form,
       walkMinutes: form.walkMinutes ? Number(form.walkMinutes) : undefined,
+      ...(thumbnailUrl && { thumbnailUrl }),
     };
+
     const res = await fetch("/api/admin/shops", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -87,7 +117,7 @@ export default function NewShopPage() {
         { label: "住所", name: "address" },
         { label: "予算", name: "budget" },
         { label: "タグ（カンマ区切り）", name: "tags" },
-        { label: "目玉商品名", name: "highlightName" },
+        { label: "おすすめ商品名", name: "highlightName" },
         { label: "ジャンル", name: "highlightGenre" },
         { label: "ラストオーダー", name: "lastOrder" },
         { label: "徒歩何分", name: "walkMinutes" },
@@ -114,6 +144,31 @@ export default function NewShopPage() {
           )}
         </div>
       ))}
+
+      {/* 画像アップロード */}
+      <div>
+        <label style={labelStyle}>サムネイル画像</label>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          style={{ ...inputStyle, cursor: "pointer" }}
+        />
+        {previewUrl && (
+          <img
+            src={previewUrl}
+            alt="プレビュー"
+            style={{
+              width: "100%",
+              maxHeight: "200px",
+              objectFit: "cover",
+              borderRadius: "6px",
+              marginBottom: "16px",
+              border: "1px solid rgba(0,229,255,0.2)",
+            }}
+          />
+        )}
+      </div>
 
       <button
         onClick={handleSubmit}
